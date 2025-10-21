@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import * as cheerio from "cheerio";
 
@@ -8,7 +9,6 @@ export const revalidate = 0;
 
 export async function GET() {
   try {
-    // 🌐 Try direct fetch first
     let html;
     try {
       const res = await fetch("https://earthquake.phivolcs.dost.gov.ph/", {
@@ -27,7 +27,6 @@ export async function GET() {
       html = await proxyRes.text();
     }
 
-    // 🧠 Parse HTML
     const $ = cheerio.load(html);
     const table = $("table")
       .filter((_, el) => {
@@ -55,7 +54,7 @@ export async function GET() {
   } catch (error) {
     console.error("❌ Failed to scrape PHIVOLCS:", error);
     return NextResponse.json(
-      { error: "Scrape failed", details: error },
+      { error: "Scrape failed", details: error.message },
       { status: 500 }
     );
   }
