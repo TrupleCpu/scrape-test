@@ -54,7 +54,7 @@ export async function GET() {
   } catch (error) {
     console.error("❌ Failed to scrape PHIVOLCS:", error);
     return NextResponse.json(
-      { error: "Scrape failed", details: error.message },
+      { error: "Scrape failed", details: error },
       { status: 500 }
     );
   }
